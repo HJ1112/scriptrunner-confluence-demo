@@ -85,9 +85,17 @@
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    // Wait for the Adaptavist Bridge to be fully ready
+    function initBanner() {
+      // Check if bridge is available
+      if (typeof AdaptavistBridgeContext === 'undefined' ||
+          typeof AdaptavistBridge === 'undefined') {
+        setTimeout(initBanner, 300);
+        return;
+      }
 
-      var spaceId = AdaptavistBridgeContext.context.spaceId;
+      var context = AdaptavistBridgeContext.context;
+      var spaceId = context && (context.spaceId || context.entityKey);
 
       if (!spaceId) {
         document.getElementById('loading').textContent =
@@ -105,8 +113,8 @@
         var nameEl = document.getElementById('space-name');
         var keyEl  = document.getElementById('space-key');
 
-        nameEl.textContent = '📁 ' + space.name;
-        keyEl.textContent  = 'Space Key: ' + space.key;
+        nameEl.textContent = '📁 ' + (space.name || 'Unknown Space');
+        keyEl.textContent  = 'Space Key: ' + (space.key || spaceId);
 
         nameEl.style.display = 'block';
         keyEl.style.display  = 'block';
@@ -115,8 +123,10 @@
         document.getElementById('loading').textContent =
           '⚠️ Could not load space information.';
       });
+    }
 
-    });
+    // Start checking once page is ready
+    document.addEventListener('DOMContentLoaded', initBanner);
   </script>
 
 </body>
