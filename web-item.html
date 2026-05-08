@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Quick Links</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      padding: 16px;
+      background: #fff;
+      min-width: 260px;
+    }
+
+    h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #172B4D;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #0052CC;
+    }
+
+    .link-list { list-style: none; }
+
+    .link-list li { margin-bottom: 8px; }
+
+    .link-list a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      background: #F4F5F7;
+      border-radius: 4px;
+      text-decoration: none;
+      color: #172B4D;
+      font-size: 13px;
+      transition: background 0.15s;
+    }
+
+    .link-list a:hover {
+      background: #DEEBFF;
+      color: #0052CC;
+    }
+
+    .link-icon { font-size: 16px; }
+
+    .powered-by {
+      margin-top: 14px;
+      font-size: 11px;
+      color: #6B778C;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <h3>⚡ Quick Links</h3>
+
+  <!--
+    CUSTOMISE: Update these links to match your team's resources
+  -->
+  <ul class="link-list">
+    <li>
+      <a href="https://your-jira-instance.atlassian.net" target="_blank">
+        <span class="link-icon">🎯</span> Jira Board
+      </a>
+    </li>
+    <li>
+      <a href="https://your-confluence.atlassian.net/wiki" target="_blank">
+        <span class="link-icon">🏠</span> Confluence Home
+      </a>
+    </li>
+    <li>
+      <a href="https://your-confluence.atlassian.net/wiki/spaces/SRDEMO/overview" target="_blank">
+        <span class="link-icon">📁</span> ScriptRunner Demo Space
+      </a>
+    </li>
+    <li>
+      <a href="https://docs.adaptavist.com/sr4cc/latest" target="_blank">
+        <span class="link-icon">📖</span> ScriptRunner Docs
+      </a>
+    </li>
+    <li>
+      <a href="https://docs.adaptavist.com/sms/latest" target="_blank">
+        <span class="link-icon">🚀</span> Migration Suite Docs
+      </a>
+    </li>
+  </ul>
+
+  <p class="powered-by">⚡ Powered by ScriptRunner</p>
+
+</body>
+</html>
