@@ -103,40 +103,25 @@
         return;
       }
 
-      // Use v1 API with spaceKey from context — better supported by the bridge
-      var spaceKey = context && context.entityKey;
-
       AdaptavistBridge.request({
-        url: '/wiki/rest/api/space/' + spaceKey,
+        url: '/wiki/api/v2/spaces/' + spaceId,
         type: 'GET'
       })
-      .then(function (response) {
-        // Parse if raw JSON string
-        var space = (typeof response === 'string') ? JSON.parse(response) : response;
-
+      .then(function (space) {
         document.getElementById('loading').style.display = 'none';
 
         var nameEl = document.getElementById('space-name');
         var keyEl  = document.getElementById('space-key');
 
-        nameEl.textContent = '📁 ' + (space.name || spaceKey);
-        keyEl.textContent  = 'Space Key: ' + (space.key || spaceKey);
+        nameEl.textContent = '📁 ' + (space.name || 'Unknown Space');
+        keyEl.textContent  = 'Space Key: ' + (space.key || spaceId);
 
         nameEl.style.display = 'block';
         keyEl.style.display  = 'block';
       })
       .catch(function () {
-        // Fallback — just show the space key from context
-        document.getElementById('loading').style.display = 'none';
-
-        var nameEl = document.getElementById('space-name');
-        var keyEl  = document.getElementById('space-key');
-
-        nameEl.textContent = '📁 ' + (spaceKey || 'Confluence Space');
-        keyEl.textContent  = 'Space Key: ' + (spaceKey || 'N/A');
-
-        nameEl.style.display = 'block';
-        keyEl.style.display  = 'block';
+        document.getElementById('loading').textContent =
+          '⚠️ Could not load space information.';
       });
     }
 
