@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Space Info Banner</title>
+
+  <!--
+    ============================================================
+    DEMO 7a – Script Fragment: Web Panel (Space Info Banner)
+    ============================================================
+    WHAT IT DOES:
+      Displays a friendly banner at the top or bottom of every
+      page in a Confluence space. The banner shows the current
+      space name and key, fetched live using the Adaptavist
+      Bridge and the Confluence REST API.
+
+    HOW TO USE:
+      1. Host this HTML file on GitHub Pages
+      2. Go to Confluence Administration → ScriptRunner → Script Fragments
+      3. Click "Create Script Fragment"
+      4. Select the Space(s) where you want the banner to appear
+      5. Set Fragment Type to: WebPanel
+      6. Set Location to: Header
+      7. Set Source to: Single URL
+      8. Paste the GitHub Pages URL of this file and click Save
+      9. Visit any page in that space — the banner will appear!
+    ============================================================
+  -->
+
+  <!-- Load the Adaptavist Bridge -->
+  <script src="https://assets.hydrogen.sagittarius.connect.product.adaptavist.com/public/js/bridge.js"></script>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    #space-banner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: linear-gradient(90deg, #0052CC, #0065FF);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 4px;
+      margin: 8px 0;
+      font-size: 14px;
+      min-height: 44px;
+    }
+
+    #space-icon {
+      width: 32px;
+      height: 32px;
+      background: rgba(255,255,255,0.25);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    #space-info { flex: 1; }
+    #space-name  { font-weight: 600; font-size: 15px; }
+    #space-key   { font-size: 12px; opacity: 0.85; margin-top: 2px; }
+
+    #loading {
+      color: rgba(255,255,255,0.8);
+      font-style: italic;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="space-banner">
+    <div id="space-icon">🏢</div>
+    <div id="space-info">
+      <div id="loading">Loading space information...</div>
+      <div id="space-name" style="display:none;"></div>
+      <div id="space-key"  style="display:none;"></div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+      var spaceId = AdaptavistBridgeContext.context.spaceId;
+
+      if (!spaceId) {
+        document.getElementById('loading').textContent =
+          '⚠️ Could not detect the current space.';
+        return;
+      }
+
+      AdaptavistBridge.request({
+        url: '/wiki/api/v2/spaces/' + spaceId,
+        type: 'GET'
+      })
+      .then(function (space) {
+        document.getElementById('loading').style.display = 'none';
+
+        var nameEl = document.getElementById('space-name');
+        var keyEl  = document.getElementById('space-key');
+
+        nameEl.textContent = '📁 ' + space.name;
+        keyEl.textContent  = 'Space Key: ' + space.key;
+
+        nameEl.style.display = 'block';
+        keyEl.style.display  = 'block';
+      })
+      .catch(function () {
+        document.getElementById('loading').textContent =
+          '⚠️ Could not load space information.';
+      });
+
+    });
+  </script>
+
+</body>
+</html>
